@@ -1,23 +1,31 @@
 plugins {
     id 'com.android.application'
     id 'kotlin-android'
+    id 'kotlin-kapt'
+    id 'kotlin-parcelize'
 }
+apply from: '../dependencies.gradle'
 
 android {
-    compileSdkVersion 30
-    buildToolsVersion "30.0.3"
+    compileSdkVersion versions.compileSdk
+    buildToolsVersion versions.buildTools
 
     defaultConfig {
         applicationId "mehmetbalbay.cdf1e3825f38f80585a16b5d4f202c6b"
-        minSdkVersion 21
-        targetSdkVersion 30
-        versionCode 1
-        versionName "1.0"
-
+        minSdkVersion versions.minSdk
+        targetSdkVersion versions.targetSdk
+        versionCode versions.versionCode
+        versionName versions.versionName
+        multiDexEnabled true
+        vectorDrawables.useSupportLibrary = true
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
 
     buildTypes {
+        debug {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+        }
         release {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
@@ -33,14 +41,53 @@ android {
 }
 
 dependencies {
+    testImplementation Dependencies.junit
+    androidTestImplementation Dependencies.extJunit
+    androidTestImplementation Dependencies.espressoCore
 
-    implementation "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version"
-    implementation 'androidx.core:core-ktx:1.3.2'
-    implementation 'androidx.appcompat:appcompat:1.2.0'
-    implementation 'com.google.android.material:material:1.3.0'
-    implementation 'androidx.constraintlayout:constraintlayout:2.0.4'
+    implementation Dependencies.kotlinStdLib
+    implementation Dependencies.coreCoreKtx
 
-    testImplementation 'junit:junit:4.+'
-    androidTestImplementation 'androidx.test.ext:junit:1.1.2'
-    androidTestImplementation 'androidx.test.espresso:espresso-core:3.3.0'
+    implementation Dependencies.appCompat
+    implementation Dependencies.constraintLayout
+    implementation Dependencies.recyclerView
+    implementation Dependencies.cardView
+    implementation Dependencies.androidMaterial
+
+    implementation Dependencies.timber
+
+    implementation Dependencies.hawk
+
+    implementation Dependencies.multidex
+
+    implementation Dependencies.koinAndroid
+    implementation Dependencies.koinAndroidXScope
+    implementation Dependencies.koinAndroidXViewModel
+    implementation Dependencies.koinAndroidXFragment
+    testImplementation Dependencies.koinTest
+
+    implementation Dependencies.glide
+    implementation Dependencies.glideCompiler
+
+    implementation Dependencies.retrofit
+    implementation Dependencies.retrofitGson
+    implementation Dependencies.gson
+    implementation Dependencies.okhttp
+
+    implementation Dependencies.coroutinesAndroid
+    testImplementation Dependencies.coroutineAndroidTest
+    testImplementation Dependencies.coroutinesTest
+
+    implementation Dependencies.archLifecycle
+    implementation Dependencies.archLifecycleLivedataKtx
+    implementation Dependencies.archLifecycleViewmodelKtx
+
+    implementation Dependencies.roomRuntime
+    kapt Dependencies.roomCompiler
+
+    implementation Dependencies.rxJava
+    implementation Dependencies.rxAndroid
+
+    implementation Dependencies.navigationFragment
+    implementation Dependencies.navigationUI
 }
