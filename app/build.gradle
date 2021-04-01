@@ -11,7 +11,7 @@ android {
     buildToolsVersion versions.buildTools
 
     defaultConfig {
-        applicationId "mehmetbalbay.cdf1e3825f38f80585a16b5d4f202c6b"
+        applicationId "mehmetbalbay.spaceApp"
         minSdkVersion versions.minSdk
         targetSdkVersion versions.targetSdk
         versionCode versions.versionCode

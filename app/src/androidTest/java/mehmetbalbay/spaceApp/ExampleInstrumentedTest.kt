@@ -1,4 +1,4 @@
-package mehmetbalbay.cdf1e3825f38f80585a16b5d4f202c6b
+package mehmetbalbay.spaceApp
 
 import androidx.test.platform.app.InstrumentationRegistry
 import androidx.test.ext.junit.runners.AndroidJUnit4
