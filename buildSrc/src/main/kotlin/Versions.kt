@@ -26,7 +26,7 @@ object Versions {
 
     const val retrofit = "2.9.0"
     const val gson = "2.8.6"
-    const val okhttp = "3.12.1"
+    const val okhttp = "4.9.0"
 
     const val coroutines = "1.3.0"
 
