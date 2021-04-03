@@ -1,6 +1,12 @@
 <resources>
     <string name="app_name">Space App</string>
 
+    <string name="create_space_vehicle">Uzay Aracı Oluştur</string>
+    <string name="space_stations">Uzay İstasyonları</string>
+    <string name="my_favorite_stations">Favorilerim</string>
+
+    <string name="info_create_vehicle">* Uzay aracının üç, ana özelliklerinin toplamı on beş olmalıdır.</string>
+
     <string name="bottom_menu_item_one">İstasyon</string>
     <string name="bottom_menu_item_two">Favoriler</string>
     
@@ -16,4 +22,9 @@
 
     <string name="vehicle_validation_info">Uzay araç ismi boş geçilemez.</string>
     <string name="value_validation_info">Değerler sıfır olamaz</string>
+
+    <string name="no_found_station">Uzay istasyonu bulunamadı</string>
+    <string name="travel">Seyahat Et</string>
+
+    <string name="current_station">Mevcut İstasyon</string>
 </resources>
