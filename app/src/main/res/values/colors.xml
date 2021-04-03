@@ -7,4 +7,14 @@
     <color name="teal_700">#FF018786</color>
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
+
+    <color name="bottom_navigation_back">#0C4CA8</color>
+    <color name="bottom_icon_active">#7E57C2</color>
+    <color name="bottom_icon_passive">#616161</color>
+
+    <color name="vehicle_point_border">#9E9E9E</color>
+
+    <color name="progress">#BDBDBD</color>
+
+    <color name="go_on_button">#4527A0</color>
 </resources>

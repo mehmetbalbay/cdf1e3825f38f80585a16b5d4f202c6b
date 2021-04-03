@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+    <item
+        android:id="@+id/stationFragment"
+        android:enabled="true"
+        android:icon="@drawable/station"
+        android:menuCategory="secondary"
+        android:title="@string/bottom_menu_item_one"
+        android:titleCondensed=""
+        app:showAsAction="ifRoom|withText" />
+    <item
+        android:id="@+id/myFavoriteStationFragment"
+        android:enabled="true"
+        android:icon="@drawable/star"
+        android:menuCategory="secondary"
+        android:title="@string/bottom_menu_item_two"
+        android:titleCondensed=""
+        app:showAsAction="ifRoom|withText" />
+</menu>
