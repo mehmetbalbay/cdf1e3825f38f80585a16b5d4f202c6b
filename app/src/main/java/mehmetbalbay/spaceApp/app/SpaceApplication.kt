@@ -4,6 +4,7 @@ import android.app.Application
 import com.orhanobut.hawk.Hawk
 import mehmetbalbay.spaceApp.BuildConfig
 import mehmetbalbay.spaceApp.di.networkModule
+import mehmetbalbay.spaceApp.di.persistenceModule
 import mehmetbalbay.spaceApp.di.repositoryModule
 import mehmetbalbay.spaceApp.di.viewModelModule
 import org.koin.android.ext.koin.androidContext
@@ -24,6 +25,7 @@ class SpaceApplication : Application() {
             androidContext(this@SpaceApplication)
             modules(listOf(
                 networkModule,
+                persistenceModule,
                 repositoryModule,
                 viewModelModule
             ))
