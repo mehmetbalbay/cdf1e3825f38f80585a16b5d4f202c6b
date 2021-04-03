@@ -1,9 +1,20 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
+    // Splash
+    <dimen name="splash_icon_size">300dp</dimen>
+
     // Create Vehicle
-    <dimen name="point_container_size">60dp</dimen>
+    <dimen name="point_container_size">80dp</dimen>
 
     // My Favorite Stations
     <dimen name="station_favorite_icon">36dp</dimen>
+
+    // Travel Station Item
+    <dimen name="row_travel_station_width">260dp</dimen>
+
+    // Toolbar
+    <dimen name="toolbar_title_size">20sp</dimen>
+
+    <dimen name="search_bar_height">76dp</dimen>
 </resources>

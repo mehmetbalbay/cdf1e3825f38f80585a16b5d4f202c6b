@@ -31,8 +31,8 @@
             android:layout_height="wrap_content"
             android:background="@color/bottom_navigation_back"
             app:itemBackground="?attr/selectableItemBackgroundBorderless"
-            app:itemIconTint="@color/white"
-            app:itemTextColor="@color/white"
+            app:itemIconTint="@color/bottom_icon_active"
+            app:itemTextColor="@color/bottom_icon_active"
             app:labelVisibilityMode="labeled"
             app:menu="@menu/menus" />
 

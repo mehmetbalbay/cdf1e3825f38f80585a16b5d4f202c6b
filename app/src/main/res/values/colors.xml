@@ -8,13 +8,15 @@
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
 
-    <color name="bottom_navigation_back">#0C4CA8</color>
-    <color name="bottom_icon_active">#7E57C2</color>
+    <color name="splash_back">#012226</color>
+
+    <color name="bottom_navigation_back">#F6F7F8</color>
+    <color name="bottom_icon_active">#92B09E</color>
     <color name="bottom_icon_passive">#616161</color>
 
     <color name="vehicle_point_border">#9E9E9E</color>
 
     <color name="progress">#BDBDBD</color>
 
-    <color name="go_on_button">#4527A0</color>
+    <color name="button">#212121</color>
 </resources>
