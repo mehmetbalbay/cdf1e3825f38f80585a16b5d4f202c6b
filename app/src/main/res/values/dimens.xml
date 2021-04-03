@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    // Create Vehicle
+    <dimen name="point_container_size">60dp</dimen>
+
+    // My Favorite Stations
+    <dimen name="station_favorite_icon">36dp</dimen>
+</resources>
