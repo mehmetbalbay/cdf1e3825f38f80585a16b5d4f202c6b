@@ -4,33 +4,39 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import mehmetbalbay.spaceApp.data.local.entity.SpaceStation
 import mehmetbalbay.spaceApp.enums.FavoriteStationType
-import mehmetbalbay.spaceApp.ui.adapter.viewholder.BaseViewHolder
+import mehmetbalbay.spaceApp.ui.adapter.viewholder.BaseStationViewHolder
 import mehmetbalbay.spaceApp.ui.adapter.viewholder.FavoriteStationViewHolder
-import java.util.ArrayList
+import java.util.*
 
 class FavoriteStationAdapter(
-    private val setOnClickListener: (spaceStation: SpaceStation?, position: Int) -> Unit
-) : RecyclerView.Adapter<BaseViewHolder<*>>() {
+    private val setOnClickListener: (spaceStation: SpaceStation?, position: Int) -> Unit,
+    private val setOnFavoriteClickListener: (spaceStation: SpaceStation?, position: Int) -> Unit,
+) : RecyclerView.Adapter<BaseStationViewHolder<*>>() {
 
-    private var movieData: List<SpaceStation> = ArrayList()
+    private var spaceStations: List<SpaceStation> = ArrayList()
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): BaseViewHolder<*> =
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): BaseStationViewHolder<*> =
         when (viewType) {
             FavoriteStationType.NORMAL.id -> FavoriteStationViewHolder(parent)
             else -> FavoriteStationViewHolder(parent)
         }
 
-    override fun getItemCount(): Int = movieData.size
+    override fun getItemCount(): Int = spaceStations.size
 
-    override fun onBindViewHolder(holder: BaseViewHolder<*>, position: Int) {
+    override fun onBindViewHolder(holder: BaseStationViewHolder<*>, position: Int) {
         when (holder) {
-            is FavoriteStationViewHolder -> holder.bind(movieData[position], position, setOnClickListener)
+            is FavoriteStationViewHolder -> holder.bind(
+                spaceStations[position],
+                position,
+                setOnClickListener,
+                setOnFavoriteClickListener
+            )
         }
     }
 
     fun setData(data: List<SpaceStation>?) {
         if (data != null) {
-            this.movieData = data
+            this.spaceStations = data
             notifyDataSetChanged()
         }
     }

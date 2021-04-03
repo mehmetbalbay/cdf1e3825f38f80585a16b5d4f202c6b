@@ -59,6 +59,7 @@
                 tools:text="236 EUS" />
 
             <ImageView
+                android:id="@+id/favorite_btn"
                 android:layout_width="@dimen/station_favorite_icon"
                 android:layout_height="@dimen/station_favorite_icon"
                 android:layout_alignParentEnd="true"

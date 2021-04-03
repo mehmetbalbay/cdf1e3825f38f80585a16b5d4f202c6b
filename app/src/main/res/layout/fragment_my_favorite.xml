@@ -24,10 +24,10 @@
             android:gravity="center"
             android:paddingTop="16dp"
             android:paddingBottom="16dp"
-            android:text="Favorilerim"
+            android:text="@string/my_favorite_stations"
             android:textColor="@color/black"
-            android:textSize="20sp"
-            tools:text="Favorilerim" />
+            android:textSize="@dimen/toolbar_title_size"
+            tools:text="@string/my_favorite_stations" />
 
         <View
             android:id="@+id/info_container_line"
