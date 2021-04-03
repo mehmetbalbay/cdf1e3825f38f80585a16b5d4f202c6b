@@ -7,12 +7,15 @@ import android.text.Editable
 import android.text.TextWatcher
 import android.widget.SeekBar
 import android.widget.Toast
-import androidx.lifecycle.Observer
 import mehmetbalbay.spaceApp.R
 import mehmetbalbay.spaceApp.base.DatabindingActivity
 import mehmetbalbay.spaceApp.databinding.ActivityCreateVehicleBinding
+import mehmetbalbay.spaceApp.extension.snack
+import mehmetbalbay.spaceApp.utils.Const
+import mehmetbalbay.spaceApp.utils.SharedPreferenceHelper
 import mehmetbalbay.spaceApp.utils.startMainActivity
 import org.koin.androidx.viewmodel.ext.android.viewModel
+import timber.log.Timber
 
 class CreateVehicleActivity : DatabindingActivity() {
 
@@ -31,6 +34,10 @@ class CreateVehicleActivity : DatabindingActivity() {
         observeCheckValueInfoLiveData()
         observeIsValidValuesLiveData()
 
+        observeDurabilityPointLiveData()
+        observeSpeedPointLiveData()
+        observeCapacityPointLiveData()
+
         setVehicleNameTextListener()
 
         setDurabilitySeekBarListener()
@@ -39,32 +46,79 @@ class CreateVehicleActivity : DatabindingActivity() {
     }
 
     private fun initializeUI() {
-        this.viewModel.postDistributePoint(this.viewModel.distributePoint)
         setMaxSeekBars()
+        setInitialPointTextValues()
+        setInitialTotalPoint()
+    }
+
+    private fun setInitialTotalPoint() {
+        viewModel.postTotalPoint("0 / ${viewModel.maxPoint}")
+    }
+
+    private fun setInitialPointTextValues() {
+        val durabilityTxt = "${getString(R.string.durability)} : ${viewModel.durabilityPoint}"
+        val speedTxt = "${getString(R.string.speed)} : ${viewModel.speedPoint}"
+        val capacityTxt = "${getString(R.string.capacity)} : ${viewModel.capacityPoint}"
+        binding.durabilityTv.text = durabilityTxt
+        binding.speedTv.text = speedTxt
+        binding.capacityTv.text = capacityTxt
     }
 
     private fun setMaxSeekBars() {
-        binding.durabilitySB.max = 15
-        binding.speedSB.max = 15
-        binding.capacitySB.max = 15
+        binding.durabilitySB.max = viewModel.maxPoint
+        binding.speedSB.max = viewModel.maxPoint
+        binding.capacitySB.max = viewModel.maxPoint
     }
 
     private fun observeCheckValueInfoLiveData() {
         this.viewModel.checkValueInfoLiveData.observe(this, { info ->
             info?.let {
-                Toast.makeText(
-                    this,
-                    it,
-                    Toast.LENGTH_SHORT
-                ).show()
+                binding.root.snack(it, Const.SNACK_BAR_DURATION, f = { })
             }
         })
     }
 
     private fun observeIsValidValuesLiveData() {
-        this.viewModel.isValidValuesLiveData.observe(this, { isValid ->
+        this.viewModel.isValidValuesLiveData.observe(this, { _ ->
+            saveVehicleData()
             navigateMainActivity()
         })
+    }
+
+    private fun observeDurabilityPointLiveData() {
+        viewModel.durabilityPointLiveData.observe(this, { durability ->
+            durability?.let {
+                val durabilityTxt = "${getString(R.string.durability)} : $it"
+                binding.durabilityTv.text = durabilityTxt
+            }
+        })
+    }
+
+    private fun observeSpeedPointLiveData() {
+        viewModel.speedPointLiveData.observe(this, { speed ->
+            speed?.let {
+                val speedTxt = "${getString(R.string.speed)} : $it"
+                binding.speedTv.text = speedTxt
+            }
+        })
+    }
+
+    private fun observeCapacityPointLiveData() {
+        viewModel.capacityPointLiveData.observe(this, { capacity ->
+            capacity?.let {
+                val capacityTxt = "${getString(R.string.capacity)} : $it"
+                binding.capacityTv.text = capacityTxt
+            }
+        })
+    }
+
+    private fun saveVehicleData() {
+        SharedPreferenceHelper.saveSharedData(Const.VEHICLE_NAME, viewModel.vehicleName)
+        SharedPreferenceHelper.saveSharedData(Const.VEHICLE_DURATION, viewModel.durabilityPoint)
+        SharedPreferenceHelper.saveSharedData(Const.VEHICLE_SPEED, viewModel.speedPoint)
+        SharedPreferenceHelper.saveSharedData(Const.VEHICLE_CAPACITY, viewModel.capacityPoint)
+        SharedPreferenceHelper.saveSharedData(Const.VEHICLE_DAMAGE_CAPACITY, viewModel.damageCapacity)
+        SharedPreferenceHelper.saveSharedData(Const.IS_VEHICLE_SAVE, true)
     }
 
     private fun navigateMainActivity() {

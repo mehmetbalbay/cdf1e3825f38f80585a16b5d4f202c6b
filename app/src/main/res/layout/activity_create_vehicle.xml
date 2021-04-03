@@ -11,53 +11,29 @@
     </data>
 
     <RelativeLayout
+        android:id="@+id/root"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
         <TextView
-            android:id="@+id/point_tv"
+            android:id="@+id/title"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignTop="@+id/point_container"
-            android:layout_alignBottom="@+id/point_container"
-            android:layout_alignParentStart="true"
-            android:layout_marginStart="24dp"
-            android:layout_marginEnd="24dp"
-            android:layout_toStartOf="@+id/point_container"
-            android:gravity="center"
-            android:text="@string/distribute_the_points"
-            android:textColor="@color/black"
-            android:textSize="30sp"
-            tools:text="@string/distribute_the_points" />
-
-        <FrameLayout
-            android:id="@+id/point_container"
-            android:layout_width="@dimen/point_container_size"
-            android:layout_height="@dimen/point_container_size"
             android:layout_alignParentTop="true"
-            android:layout_alignParentEnd="true"
-            android:layout_marginStart="16dp"
+            android:layout_centerHorizontal="true"
+            android:layout_marginStart="24dp"
             android:layout_marginTop="16dp"
-            android:layout_marginEnd="16dp"
-            android:background="@drawable/vehicle_point_back">
-
-            <TextView
-                android:id="@+id/point"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:gravity="center"
-                android:textColor="@color/black"
-                android:text="@{String.valueOf(viewModel.distributePointLiveData)}"
-                android:textSize="24sp"
-                tools:text="15" />
-        </FrameLayout>
+            android:layout_marginEnd="24dp"
+            android:gravity="center"
+            android:text="@string/create_space_vehicle"
+            android:textColor="@color/black"
+            android:textSize="@dimen/toolbar_title_size" />
 
         <View
             android:id="@+id/point_container_line"
             android:layout_width="wrap_content"
-            android:layout_height="2dp"
-            android:layout_below="@id/point_container"
+            android:layout_height="1dp"
+            android:layout_below="@id/title"
             android:layout_alignParentStart="true"
             android:layout_alignParentEnd="true"
             android:layout_marginTop="16dp"
@@ -75,33 +51,37 @@
             android:layout_marginTop="24dp"
             android:layout_marginEnd="24dp"
             android:hint="@string/enter_space_vehicle_name"
-            app:boxBackgroundMode="outline">
+            app:boxBackgroundMode="outline"
+            app:boxStrokeColor="@color/bottom_icon_active"
+            app:hintTextColor="@color/bottom_icon_active">
 
             <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/space_vehicle_edt"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:imeOptions="actionDone"
+                android:singleLine="true"
                 android:textColor="@color/black" />
 
         </com.google.android.material.textfield.TextInputLayout>
 
         <LinearLayout
+            android:id="@+id/select_point_container"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_above="@+id/go_on_btn"
             android:layout_below="@+id/space_vehicle_text_input_l"
             android:layout_alignParentStart="true"
             android:layout_alignParentEnd="true"
             android:layout_marginStart="24dp"
-            android:layout_marginTop="36dp"
+            android:layout_marginTop="24dp"
             android:layout_marginEnd="24dp"
             android:layout_marginBottom="36dp"
             android:orientation="vertical">
 
             <TextView
+                android:id="@+id/durability_tv"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/durability"
                 android:textColor="@color/black"
                 android:textSize="18sp" />
 
@@ -110,12 +90,14 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="16dp"
-                android:layout_marginBottom="16dp" />
+                android:layout_marginBottom="16dp"
+                android:progressTint="@color/bottom_icon_passive"
+                android:thumbTint="@color/bottom_icon_active" />
 
             <TextView
+                android:id="@+id/speed_tv"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/speed"
                 android:textColor="@color/black"
                 android:textSize="18sp" />
 
@@ -124,12 +106,14 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="16dp"
-                android:layout_marginBottom="16dp" />
+                android:layout_marginBottom="16dp"
+                android:progressTint="@color/bottom_icon_passive"
+                android:thumbTint="@color/bottom_icon_active" />
 
             <TextView
+                android:id="@+id/capacity_tv"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/capacity"
                 android:textColor="@color/black"
                 android:textSize="18sp" />
 
@@ -138,9 +122,54 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="16dp"
-                android:layout_marginBottom="16dp" />
+                android:layout_marginBottom="16dp"
+                android:progressTint="@color/bottom_icon_passive"
+                android:thumbTint="@color/bottom_icon_active"
+                tools:progress="30" />
 
         </LinearLayout>
+
+        <TextView
+            android:id="@+id/distribute_tv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignStart="@+id/select_point_container"
+            android:layout_alignTop="@id/point_container"
+            android:layout_alignBottom="@id/point_container"
+            android:gravity="center"
+            android:text="@string/distribute_the_points"
+            android:textColor="@color/black"
+            android:textSize="16sp" />
+
+        <FrameLayout
+            android:id="@+id/point_container"
+            android:layout_width="@dimen/point_container_size"
+            android:layout_height="@dimen/point_container_size"
+            android:layout_below="@id/select_point_container"
+            android:layout_marginStart="16dp"
+            android:layout_marginEnd="16dp"
+            android:layout_toEndOf="@+id/distribute_tv"
+            android:background="@drawable/vehicle_point_back">
+
+            <TextView
+                android:id="@+id/point"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:gravity="center"
+                android:text="@{String.valueOf(viewModel.totalPointLiveData)}"
+                android:textColor="@color/black"
+                android:textSize="16sp"
+                tools:text="0 / 15" />
+        </FrameLayout>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/point_container"
+            android:layout_alignStart="@id/distribute_tv"
+            android:layout_marginTop="8dp"
+            android:text="@string/info_create_vehicle" />
 
         <Button
             android:id="@+id/go_on_btn"
@@ -149,7 +178,7 @@
             android:layout_alignParentBottom="true"
             android:layout_centerHorizontal="true"
             android:layout_marginBottom="24dp"
-            android:background="@drawable/go_on_button_back"
+            android:backgroundTint="@color/button"
             android:paddingStart="20dp"
             android:paddingTop="14dp"
             android:paddingEnd="20dp"

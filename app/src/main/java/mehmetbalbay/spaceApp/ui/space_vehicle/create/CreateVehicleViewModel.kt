@@ -6,28 +6,39 @@ import mehmetbalbay.spaceApp.base.LiveCoroutinesViewModel
 
 class CreateVehicleViewModel : LiveCoroutinesViewModel() {
 
-    private val _distributePointLiveData: MutableLiveData<Int> = MutableLiveData()
-    val distributePointLiveData: LiveData<Int> get() = _distributePointLiveData
-
     private val _checkValueInfoLiveData: MutableLiveData<String> = MutableLiveData()
     val checkValueInfoLiveData: LiveData<String> get() = _checkValueInfoLiveData
 
     private val _isValidValuesLiveData: MutableLiveData<Boolean> = MutableLiveData()
     val isValidValuesLiveData: LiveData<Boolean> get() = _isValidValuesLiveData
 
+    // Property Values LiveData
+    private val _durabilityPointLiveData: MutableLiveData<Int> = MutableLiveData()
+    val durabilityPointLiveData: LiveData<Int> get() = _durabilityPointLiveData
+
+    private val _speedPointLiveData: MutableLiveData<Int> = MutableLiveData()
+    val speedPointLiveData: LiveData<Int> get() = _speedPointLiveData
+
+    private val _capacityPointLiveData: MutableLiveData<Int> = MutableLiveData()
+    val capacityPointLiveData: LiveData<Int> get() = _capacityPointLiveData
+
+    private val _totalPointLiveData: MutableLiveData<String> = MutableLiveData()
+    val totalPointLiveData: LiveData<String> get() = _totalPointLiveData
+
     var vehicleName: String? = null
 
-    val totalPoint: Int = 15
+    val maxPoint: Int = 15
 
-    var distributePoint: Int = 15
+    val damageCapacity = 100
 
     var durabilityPoint: Int = 0
     var speedPoint: Int = 0
     var capacityPoint: Int = 0
 
     fun isSelectableDurabilityProgress(durabilityProgress: Int): Boolean {
-        return if ((durabilityProgress + speedPoint + capacityPoint) <= totalPoint) {
+        return if ((durabilityProgress + speedPoint + capacityPoint) <= maxPoint) {
             durabilityPoint = durabilityProgress
+            postDurabilityPoint(durabilityProgress)
             true
         } else {
             false
@@ -35,8 +46,9 @@ class CreateVehicleViewModel : LiveCoroutinesViewModel() {
     }
 
     fun isSelectableSpeedProgress(speedProgress: Int): Boolean {
-        return if ((durabilityPoint + speedProgress + capacityPoint) <= totalPoint) {
+        return if ((durabilityPoint + speedProgress + capacityPoint) <= maxPoint) {
             speedPoint = speedProgress
+            postSpeedPoint(speedProgress)
             true
         } else {
             false
@@ -44,16 +56,20 @@ class CreateVehicleViewModel : LiveCoroutinesViewModel() {
     }
 
     fun isSelectableCapacityProgress(capacityProgress: Int): Boolean {
-        return if ((durabilityPoint + speedPoint + capacityProgress) <= totalPoint) {
+        return if ((durabilityPoint + speedPoint + capacityProgress) <= maxPoint) {
             capacityPoint = capacityProgress
+            postCapacityPoint(capacityProgress)
             true
         } else {
             false
         }
     }
 
-    fun isValidPoints(): Boolean {
-        return (durabilityPoint != 0 && speedPoint != 0 && capacityPoint != 0 && (durabilityPoint + speedPoint + capacityPoint) == totalPoint)
+    private fun isValidPoints(): Boolean {
+        return (durabilityPoint != 0 &&
+                speedPoint != 0 &&
+                capacityPoint != 0 &&
+                (durabilityPoint + speedPoint + capacityPoint) == maxPoint)
     }
 
     private fun isValidVehicleName(): Boolean {
@@ -62,9 +78,9 @@ class CreateVehicleViewModel : LiveCoroutinesViewModel() {
 
     fun checkAllValue() {
         if (!isValidVehicleName()) {
-            postCheckValueInfo("Uzay araç ismi boş geçilemez.")
+            postCheckValueInfo("Uzay aracının ismi boş bırakılamaz.")
         } else if (!isValidPoints()) {
-            postCheckValueInfo("Değerler sıfır olamaz veya 3 özelliğin toplamı 15 olmalı")
+            postCheckValueInfo("Uzay aracının üç, ana özelliklerinin toplamı on beş olmalıdır.")
         } else {
             postIsValidValues(true)
         }
@@ -78,7 +94,27 @@ class CreateVehicleViewModel : LiveCoroutinesViewModel() {
         _checkValueInfoLiveData.postValue(info)
     }
 
-    fun postDistributePoint(point: Int) {
-        _distributePointLiveData.postValue(point)
+    private fun postDurabilityPoint(durabilityProgress: Int) {
+        durabilityPoint = durabilityProgress
+        _durabilityPointLiveData.postValue(durabilityProgress)
+        postTotalPoint("${getTotalPoint()} / $maxPoint")
+    }
+
+    private fun postSpeedPoint(speedProgress: Int) {
+        speedPoint = speedProgress
+        _speedPointLiveData.postValue(speedProgress)
+        postTotalPoint("${getTotalPoint()} / $maxPoint")
+    }
+
+    private fun postCapacityPoint(capacityProgress: Int) {
+        capacityPoint = capacityProgress
+        _capacityPointLiveData.postValue(capacityProgress)
+        postTotalPoint("${getTotalPoint()} / $maxPoint")
+    }
+
+    private fun getTotalPoint(): Int = (durabilityPoint + speedPoint + capacityPoint)
+
+    fun postTotalPoint(point: String) {
+        _totalPointLiveData.postValue(point)
     }
 }
