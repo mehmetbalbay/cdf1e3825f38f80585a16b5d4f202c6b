@@ -1,21 +1,19 @@
-package mehmetbalbay.spaceApp.utils;
+package mehmetbalbay.spaceApp.utils
 
-import com.orhanobut.hawk.Hawk;
+import com.orhanobut.hawk.Hawk
 
-public class SharedPreferenceHelper {
-
-    public static <T> void saveSharedData(String key, T value) {
-        Hawk.put(key, value);
+object SharedPreferenceHelper {
+    fun <T> saveSharedData(key: String?, value: T) {
+        Hawk.put(key, value)
     }
 
-    public static <T> T getSharedData(String key) {
-        if (Hawk.get(key) != null) {
-            return Hawk.get(key);
-        }
-        return null;
+    fun <T> getSharedData(key: String?): T? {
+        return if (Hawk.get<Any?>(key) != null) {
+            Hawk.get(key)
+        } else null
     }
 
-    public static void allDeletePref() {
-        Hawk.deleteAll();
+    fun allDeletePref() {
+        Hawk.deleteAll()
     }
 }
