@@ -22,5 +22,6 @@ data class SpaceStation(
     val need: Int?,
     @SerializedName("stock")
     val stock: Int?,
-    var isFavorite: Boolean = false
+    var isFavorite: Boolean = false,
+    var isTraveler: Boolean = true
 ) : Parcelable
