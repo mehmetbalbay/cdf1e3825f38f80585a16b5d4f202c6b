@@ -33,9 +33,6 @@ object Versions {
     const val lifecycle = "2.2.0"
     const val arch = "2.1.0"
 
-    const val rxJava = "2.2.5"
-    const val rxAndroid = "2.1.0"
-
     const val androidMaterial = "1.3.0-alpha02"
 
     const val navigation = "2.3.0"

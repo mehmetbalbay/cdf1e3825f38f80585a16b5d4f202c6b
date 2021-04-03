@@ -47,10 +47,6 @@ object Dependencies {
     // Shared Pref
     val hawk = "com.orhanobut:hawk:${Versions.hawk}"
 
-    // RX JAVA ANDROID
-    val rxJava = "io.reactivex.rxjava2:rxjava:${Versions.rxJava}"
-    val rxAndroid = "io.reactivex.rxjava2:rxandroid:${Versions.rxAndroid}"
-
     // MultiDex
     val multidex = "androidx.multidex:multidex:${Versions.multidex}"
 

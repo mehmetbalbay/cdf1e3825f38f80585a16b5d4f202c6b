@@ -90,9 +90,6 @@ dependencies {
     implementation Dependencies.roomRuntime
     kapt Dependencies.roomCompiler
 
-    implementation Dependencies.rxJava
-    implementation Dependencies.rxAndroid
-
     implementation Dependencies.navigationFragment
     implementation Dependencies.navigationUI
 }
