@@ -36,7 +36,7 @@
                 android:layout_marginStart="8dp"
                 android:text="@{String.valueOf(spaceStation.need) + ` Stock` + `\n` + String.valueOf(spaceStation.stock) + ` Capacity` }"
                 android:textColor="@color/black"
-                android:textSize="20sp"
+                android:textSize="16sp"
                 tools:text="2000 / 1000" />
 
             <TextView
