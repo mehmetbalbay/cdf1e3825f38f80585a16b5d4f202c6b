@@ -24,7 +24,7 @@ class MyFavoriteStationFragment : DatabindingFragment() {
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
         return binding<FragmentMyFavoriteBinding>(
             inflater, R.layout.fragment_my_favorite, container
         ).apply {
@@ -58,7 +58,7 @@ class MyFavoriteStationFragment : DatabindingFragment() {
     }
 
     private fun setFavoriteStationAdapter(data: List<SpaceStation>) {
-        favoriteStationAdapter = FavoriteStationAdapter({ spaceStation, position ->
+        favoriteStationAdapter = FavoriteStationAdapter({ _, _ ->
 
         }, { spaceStation, position ->
             spaceStation?.let {
