@@ -15,7 +15,10 @@ class TravelStationAdapter(
 
     private var spaceStations: List<SpaceStation> = ArrayList()
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): BaseStationViewHolder<*> =
+    override fun onCreateViewHolder(
+        parent: ViewGroup,
+        viewType: Int
+    ): BaseStationViewHolder<*> =
         when (viewType) {
             TravelStationType.NORMAL.id -> TravelStationViewHolder(parent)
             else -> TravelStationViewHolder(parent)
