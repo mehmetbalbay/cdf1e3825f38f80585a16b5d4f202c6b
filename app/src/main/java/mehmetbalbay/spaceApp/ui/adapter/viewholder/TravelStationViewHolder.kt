@@ -7,7 +7,6 @@ import android.view.ViewGroup
 import androidx.core.content.ContextCompat
 import mehmetbalbay.spaceApp.R
 import mehmetbalbay.spaceApp.data.local.entity.SpaceStation
-import mehmetbalbay.spaceApp.databinding.RowFavoriteBinding
 import mehmetbalbay.spaceApp.databinding.RowTravelStationBinding
 
 class TravelStationViewHolder(parent: ViewGroup) : BaseStationViewHolder<SpaceStation?>(
@@ -31,13 +30,43 @@ class TravelStationViewHolder(parent: ViewGroup) : BaseStationViewHolder<SpaceSt
                 spaceStation = mItem
 
                 if (mItem.isFavorite) {
-                    favoriteBtn.imageTintList = ColorStateList.valueOf(ContextCompat.getColor(itemView.context, R.color.bottom_icon_active))
+                    favoriteBtn.imageTintList = ColorStateList.valueOf(
+                        ContextCompat.getColor(
+                            itemView.context,
+                            R.color.bottom_icon_active
+                        )
+                    )
                 } else {
-                    favoriteBtn.imageTintList = ColorStateList.valueOf(ContextCompat.getColor(itemView.context, R.color.bottom_icon_passive))
+                    favoriteBtn.imageTintList = ColorStateList.valueOf(
+                        ContextCompat.getColor(
+                            itemView.context,
+                            R.color.bottom_icon_passive
+                        )
+                    )
                 }
 
                 travelBtn.setOnClickListener { setOnClickListener.invoke(mItem, position) }
-                favoriteBtn.setOnClickListener { setOnFavoriteClickListener.invoke(mItem, position) }
+                favoriteBtn.setOnClickListener {
+                    setOnFavoriteClickListener.invoke(
+                        mItem,
+                        position
+                    )
+                }
+
+
+                travelBtn.isEnabled = mItem.isTraveler
+                if (mItem.isTraveler) {
+                    travelStationCard.setCardBackgroundColor(Color.WHITE)
+                    travelBtn.setBackgroundColor(
+                        ContextCompat.getColor(
+                            itemView.context,
+                            R.color.button
+                        )
+                    )
+                } else {
+                    travelStationCard.setCardBackgroundColor(Color.LTGRAY)
+                    travelBtn.setBackgroundColor(Color.LTGRAY)
+                }
             }
         }
     }
