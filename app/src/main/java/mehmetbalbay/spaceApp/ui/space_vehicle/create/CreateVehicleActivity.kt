@@ -6,7 +6,6 @@ import android.os.Looper
 import android.text.Editable
 import android.text.TextWatcher
 import android.widget.SeekBar
-import android.widget.Toast
 import mehmetbalbay.spaceApp.R
 import mehmetbalbay.spaceApp.base.DatabindingActivity
 import mehmetbalbay.spaceApp.databinding.ActivityCreateVehicleBinding
@@ -15,7 +14,6 @@ import mehmetbalbay.spaceApp.utils.Const
 import mehmetbalbay.spaceApp.utils.SharedPreferenceHelper
 import mehmetbalbay.spaceApp.utils.startMainActivity
 import org.koin.androidx.viewmodel.ext.android.viewModel
-import timber.log.Timber
 
 class CreateVehicleActivity : DatabindingActivity() {
 
@@ -71,9 +69,9 @@ class CreateVehicleActivity : DatabindingActivity() {
     }
 
     private fun observeCheckValueInfoLiveData() {
-        this.viewModel.checkValueInfoLiveData.observe(this, { info ->
-            info?.let {
-                binding.root.snack(it, Const.SNACK_BAR_DURATION, f = { })
+        this.viewModel.checkValueInfoLiveData.observe(this, { infoResId ->
+            infoResId?.let {
+                binding.root.snack(getString(it), Const.SNACK_BAR_DURATION)
             }
         })
     }
@@ -114,11 +112,15 @@ class CreateVehicleActivity : DatabindingActivity() {
 
     private fun saveVehicleData() {
         SharedPreferenceHelper.saveSharedData(Const.VEHICLE_NAME, viewModel.vehicleName)
-        SharedPreferenceHelper.saveSharedData(Const.VEHICLE_DURATION, viewModel.durabilityPoint)
+        SharedPreferenceHelper.saveSharedData(Const.VEHICLE_DURABILITY, viewModel.durabilityPoint)
         SharedPreferenceHelper.saveSharedData(Const.VEHICLE_SPEED, viewModel.speedPoint)
         SharedPreferenceHelper.saveSharedData(Const.VEHICLE_CAPACITY, viewModel.capacityPoint)
         SharedPreferenceHelper.saveSharedData(Const.VEHICLE_DAMAGE_CAPACITY, viewModel.damageCapacity)
         SharedPreferenceHelper.saveSharedData(Const.IS_VEHICLE_SAVE, true)
+
+        SharedPreferenceHelper.saveSharedData(Const.SPACE_SUIT_COUNT, viewModel.capacityPoint * 10000)
+        SharedPreferenceHelper.saveSharedData(Const.UNIVERSAL_SPACE_TIME, viewModel.speedPoint * 20)
+        SharedPreferenceHelper.saveSharedData(Const.DURABILITY_TIME, viewModel.durabilityPoint * 10000)
     }
 
     private fun navigateMainActivity() {
