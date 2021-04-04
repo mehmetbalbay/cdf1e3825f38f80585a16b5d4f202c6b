@@ -5,7 +5,10 @@
     <string name="space_stations">Uzay İstasyonları</string>
     <string name="my_favorite_stations">Favorilerim</string>
 
-    <string name="info_create_vehicle">* Uzay aracının üç, ana özelliklerinin toplamı on beş olmalıdır.</string>
+    <string name="info_create_vehicle">* Uzay aracının üç ana özelliğinin toplamı on beş olmalıdır.</string>
+    <string name="info_create_vehicle_validation">Uzay aracının üç ana özelliğinin toplamı on beş olmalıdır.</string>
+
+    <string name="not_empty_vehicle_name">Uzay aracının ismi boş bırakılamaz.</string>
 
     <string name="bottom_menu_item_one">İstasyon</string>
     <string name="bottom_menu_item_two">Favoriler</string>
@@ -13,6 +16,8 @@
     <string name="durability">Dayanıklılık</string>
     <string name="speed">Hız</string>
     <string name="capacity">Kapasite</string>
+
+    <string name="search_hint">Uzay istasyonu ara …</string>
     
     <string name="enter_space_vehicle_name">Uzay aracının adını giriniz</string>
     <string name="distribute_the_points">Dağıtılacak Puan</string>
@@ -26,5 +31,11 @@
     <string name="no_found_station">Uzay istasyonu bulunamadı</string>
     <string name="travel">Seyahat Et</string>
 
-    <string name="current_station">Mevcut İstasyon</string>
+    <string name="current_station">Mevcut İstasyon:</string>
+
+    <string name="ugs">Uzay Giysi Sayısı</string>
+    <string name="eus">Evrensel Uzay Süresi</string>
+    <string name="ds">Dayanıklılık Süresi</string>
+
+    <string name="delivery_completed_info">Teslimat tamamlanmıştır artık seyahat edemezsiniz</string>
 </resources>
