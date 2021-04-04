@@ -1,23 +1,23 @@
 package mehmetbalbay.spaceApp.ui.station
 
 import android.os.Bundle
+import android.os.CountDownTimer
 import android.text.Editable
 import android.text.TextWatcher
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
 import mehmetbalbay.spaceApp.R
 import mehmetbalbay.spaceApp.base.DatabindingFragment
 import mehmetbalbay.spaceApp.data.local.entity.SpaceStation
 import mehmetbalbay.spaceApp.databinding.FragmentStationBinding
 import mehmetbalbay.spaceApp.extension.gone
+import mehmetbalbay.spaceApp.extension.snack
 import mehmetbalbay.spaceApp.extension.visible
 import mehmetbalbay.spaceApp.ui.adapter.station.TravelStationAdapter
 import mehmetbalbay.spaceApp.utils.Const
-import mehmetbalbay.spaceApp.utils.SharedPreferenceHelper
 import org.koin.androidx.viewmodel.ext.android.viewModel
-import timber.log.Timber
+import java.util.concurrent.TimeUnit
 
 class StationFragment : DatabindingFragment() {
 
@@ -30,7 +30,7 @@ class StationFragment : DatabindingFragment() {
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
         return binding<FragmentStationBinding>(
             inflater, R.layout.fragment_station, container
         ).apply {
@@ -44,33 +44,98 @@ class StationFragment : DatabindingFragment() {
         super.onViewCreated(view, savedInstanceState)
         initializeUI()
         setSearchTextListener()
-        observeToastLiveData()
+
+        startTotalDurabilityTimer()
+
+        observeMessages()
         observeSpaceStationsLiveData()
+        observeVehicleHealthLiveData()
+
+        observeCurrentStationLiveData()
+        observeSpaceSuitCountLiveData()
+        observeUniversalSpaceTimeLiveData()
     }
 
     private fun initializeUI() {
         loadSpaceStations(page = 1)
-        with(binding) {
-            remainHealth.text = (SharedPreferenceHelper.getSharedData(Const.VEHICLE_DAMAGE_CAPACITY) as Int? ?: 0).toString()
-            spaceVehicleName.text = SharedPreferenceHelper.getSharedData(Const.VEHICLE_NAME) as String? ?: ""
-        }
+        setTravelProperties()
+        setHealth(viewModel.vehicleHealth)
+        setSpaceVehicleName()
+    }
+
+    private fun setHealth(health: Int) {
+        binding.health.text = health.toString()
+    }
+
+    private fun setSpaceVehicleName() {
+        binding.spaceVehicleName.text = viewModel.spaceVehicleName
     }
 
     private fun loadSpaceStations(page: Int) = this.viewModel.postSpaceStationPage(page)
 
     private fun observeSpaceStationsLiveData() {
         this.viewModel.spaceStationsLiveData.observe(viewLifecycleOwner, { spaceStationItems ->
-            spaceStationItems?.let {
+            spaceStationItems?.let { mSpaceStations ->
                 binding.travelStationProgress.gone()
-                viewModel.spaceStations = it
-                setTravelStationAdapter(it)
+                viewModel.spaceStations = mSpaceStations
+                setTravelStationAdapter(mSpaceStations)
+            }
+        })
+    }
+
+    private fun observeVehicleHealthLiveData() {
+        this.viewModel.vehicleHealthLiveData.observe(viewLifecycleOwner, { vehicleHealth ->
+            vehicleHealth?.let { setHealth(it) }
+        })
+    }
+
+    private fun observeCurrentStationLiveData() {
+        this.viewModel.currentStationLiveData.observe(viewLifecycleOwner, { currentSpaceStation ->
+            currentSpaceStation?.let {
+                binding.currentStation.text = it.name
+            }
+        })
+    }
+
+    private fun observeSpaceSuitCountLiveData() {
+        this.viewModel.spaceSuitCountLiveData.observe(viewLifecycleOwner, { spaceSuitCount ->
+            spaceSuitCount?.let {
+                val spaceSuitCountText = "${getString(R.string.ugs)}\n $spaceSuitCount"
+                binding.ugsTv.text = spaceSuitCountText
+            }
+        })
+    }
+
+    private fun observeUniversalSpaceTimeLiveData() {
+        this.viewModel.universalSpaceTimeLiveData.observe(
+            viewLifecycleOwner,
+            { universalSpaceTime ->
+                universalSpaceTime?.let {
+                    val universalSpaceTimeText = "${getString(R.string.eus)}\n $universalSpaceTime"
+                    binding.eusTv.text = universalSpaceTimeText
+                }
+            })
+    }
+
+    private fun observeMessages() {
+        this.viewModel.toastLiveData.observe(viewLifecycleOwner, { message ->
+            message?.let {
+                binding.root.snack(it, Const.SNACK_BAR_DURATION)
             }
         })
     }
 
     private fun setTravelStationAdapter(data: List<SpaceStation>) {
-        travelStationAdapter = TravelStationAdapter ({ spaceStation, position ->
-            Timber.d("Travel Click")
+        travelStationAdapter = TravelStationAdapter({ spaceStation, _ ->
+            spaceStation?.let {
+                if (!viewModel.isDeliveryFinished) {
+                    viewModel.travel(viewModel.getCurrentStation(), spaceStation)
+                    travelStationAdapter?.setData(viewModel.spaceStations)
+                    setVisibilityTravelStationViews(viewModel.spaceStations?.isNotEmpty() == true)
+                } else {
+                    binding.root.snack(getString(R.string.delivery_completed_info), 2000)
+                }
+            }
         }, { spaceStation, position ->
             spaceStation?.let {
                 viewModel.addFavoriteStation(spaceStation = it)
@@ -80,14 +145,6 @@ class StationFragment : DatabindingFragment() {
         binding.travelStationRecycler.adapter = travelStationAdapter
         travelStationAdapter?.setData(data)
         setVisibilityTravelStationViews(data.isNotEmpty())
-    }
-
-    private fun observeToastLiveData() {
-        this.viewModel.toastLiveData.observe(viewLifecycleOwner, { message ->
-            message?.let {
-                Toast.makeText(requireContext(), it, Toast.LENGTH_LONG).show()
-            }
-        })
     }
 
     private fun setSearchTextListener() {
@@ -118,5 +175,53 @@ class StationFragment : DatabindingFragment() {
             binding.travelStationRecycler.gone()
             binding.noFoundStation.visible()
         }
+    }
+
+    private fun setTravelProperties() {
+        val ugsText = "${getString(R.string.ugs)}\n${viewModel.spaceSuits}"
+        val eusText = "${getString(R.string.eus)}\n${viewModel.universalSpaceTime}"
+        val dsText = "${getString(R.string.ds)}\n${viewModel.durabilityTime}"
+        binding.ugsTv.text = ugsText
+        binding.eusTv.text = eusText
+        binding.dsTv.text = dsText
+    }
+
+    private fun startTotalDurabilityTimer() {
+        if (viewModel.vehicleHealth > 0) {
+            object : CountDownTimer(
+                (viewModel.durabilityTime).toLong(),
+                1000
+            ) {
+                override fun onTick(millisUntilFinished: Long) {
+                    setDurabilityTime(millisUntilFinished)
+                }
+
+                override fun onFinish() {
+                    viewModel.takeDamage()
+                    if (viewModel.vehicleHealth != 0) {
+                        startTotalDurabilityTimer()
+                    } else {
+                        viewModel.turnToWorld(viewModel.getCurrentStation())
+                        viewModel.isDeliveryFinished = true
+                    }
+                }
+            }.start()
+        } else {
+            setDurabilityTime(viewModel.durabilityTime.toLong())
+            viewModel.isDeliveryFinished = true
+        }
+    }
+
+    private fun setDurabilityTime(millisUntilFinished: Long) {
+        val minutes = TimeUnit.MILLISECONDS.toMinutes(millisUntilFinished)
+        val minutesToSecond = TimeUnit.MINUTES.toSeconds(minutes)
+        val seconds = TimeUnit.MILLISECONDS.toSeconds(millisUntilFinished)
+
+        val timeString = ("" + String.format(
+            "%d:%d",
+            minutes,
+            seconds - minutesToSecond
+        ))
+        binding.durabilityTime.text = timeString
     }
 }

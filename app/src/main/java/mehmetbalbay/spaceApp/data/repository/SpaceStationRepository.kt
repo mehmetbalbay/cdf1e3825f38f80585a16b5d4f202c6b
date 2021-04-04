@@ -32,6 +32,12 @@ class SpaceStationRepository constructor(
                 when (response) {
                     is ApiResponse.Success -> {
                         response.data?.let { data ->
+                            data.map {
+                                if (it.name == "Dünya") {
+                                    it.isCurrentStation = true
+                                }
+                                it.isTraveler = true
+                            }
                             spaceStations = data
                             spaceStationsDao.insertSpaceStations(data)
                             liveData.postValue(spaceStations)
@@ -48,8 +54,18 @@ class SpaceStationRepository constructor(
 
     fun getFavoriteStations(): List<SpaceStation>? = spaceStationsDao.getFavoriteSpaceStation()
 
+    fun getCurrentSpaceStation(): SpaceStation? = spaceStationsDao.getCurrentSpaceStation()
+
     fun addFavoriteStation(spaceStation: SpaceStation) {
         spaceStation.isFavorite = !spaceStation.isFavorite
+        updateSpaceStation(spaceStation)
+    }
+
+    fun updateSpaceStation(spaceStation: SpaceStation) {
         spaceStationsDao.updateSpaceStation(spaceStation)
+    }
+
+    fun getSpaceStationByName(stationName: String): SpaceStation? {
+        return spaceStationsDao.getSpaceStation(stationName)
     }
 }

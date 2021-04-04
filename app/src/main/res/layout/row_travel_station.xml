@@ -11,6 +11,7 @@
     </data>
 
     <androidx.cardview.widget.CardView
+        android:id="@+id/travel_station_card"
         android:layout_width="@dimen/row_travel_station_width"
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
@@ -33,19 +34,20 @@
                 android:layout_alignParentStart="true"
                 android:layout_alignParentTop="true"
                 android:layout_marginStart="8dp"
-                android:text="@{String.valueOf(spaceStation.stock)}"
+                android:text="@{String.valueOf(spaceStation.need) + ` Stock` + `\n` + String.valueOf(spaceStation.stock) + ` Capacity` }"
                 android:textColor="@color/black"
                 android:textSize="20sp"
                 tools:text="2000 / 1000" />
 
             <TextView
                 android:id="@+id/distanceToEarth"
+                distanceToWorld="@{spaceStation}"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_below="@id/stock_capacity"
                 android:layout_alignStart="@id/stock_capacity"
                 android:layout_marginTop="8dp"
-                android:text="@{String.valueOf(spaceStation.coordinateX)}"
+                android:text="@{String.valueOf(spaceStation.coordinateX) + ` EUS`}"
                 android:textColor="@color/black"
                 android:textSize="16sp"
                 tools:text="236 EUS" />

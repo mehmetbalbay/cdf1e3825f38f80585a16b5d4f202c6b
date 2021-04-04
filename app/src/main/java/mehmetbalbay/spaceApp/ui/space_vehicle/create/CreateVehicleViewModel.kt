@@ -2,12 +2,13 @@ package mehmetbalbay.spaceApp.ui.space_vehicle.create
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
+import mehmetbalbay.spaceApp.R
 import mehmetbalbay.spaceApp.base.LiveCoroutinesViewModel
 
 class CreateVehicleViewModel : LiveCoroutinesViewModel() {
 
-    private val _checkValueInfoLiveData: MutableLiveData<String> = MutableLiveData()
-    val checkValueInfoLiveData: LiveData<String> get() = _checkValueInfoLiveData
+    private val _checkValueInfoLiveData: MutableLiveData<Int> = MutableLiveData()
+    val checkValueInfoLiveData: LiveData<Int> get() = _checkValueInfoLiveData
 
     private val _isValidValuesLiveData: MutableLiveData<Boolean> = MutableLiveData()
     val isValidValuesLiveData: LiveData<Boolean> get() = _isValidValuesLiveData
@@ -78,9 +79,9 @@ class CreateVehicleViewModel : LiveCoroutinesViewModel() {
 
     fun checkAllValue() {
         if (!isValidVehicleName()) {
-            postCheckValueInfo("Uzay aracının ismi boş bırakılamaz.")
+            postCheckValueInfo(R.string.not_empty_vehicle_name)
         } else if (!isValidPoints()) {
-            postCheckValueInfo("Uzay aracının üç, ana özelliklerinin toplamı on beş olmalıdır.")
+            postCheckValueInfo(R.string.info_create_vehicle_validation)
         } else {
             postIsValidValues(true)
         }
@@ -90,7 +91,7 @@ class CreateVehicleViewModel : LiveCoroutinesViewModel() {
         _isValidValuesLiveData.postValue(isValid)
     }
 
-    private fun postCheckValueInfo(info: String) {
+    private fun postCheckValueInfo(info: Int) {
         _checkValueInfoLiveData.postValue(info)
     }
 

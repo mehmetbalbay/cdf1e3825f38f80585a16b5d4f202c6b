@@ -16,7 +16,10 @@ interface SpaceStationsDao {
     fun updateSpaceStation(spaceStation: SpaceStation)
 
     @Query("SELECT * FROM SpaceStation WHERE name = :name_")
-    fun getSpaceStation(name_: String): SpaceStation
+    fun getSpaceStation(name_: String): SpaceStation?
+
+    @Query("SELECT * FROM SpaceStation WHERE isCurrentStation = '1'")
+    fun getCurrentSpaceStation(): SpaceStation?
 
     @Query("SELECT * FROM SpaceStation WHERE isFavorite = '1'")
     fun getFavoriteSpaceStation(): List<SpaceStation>?

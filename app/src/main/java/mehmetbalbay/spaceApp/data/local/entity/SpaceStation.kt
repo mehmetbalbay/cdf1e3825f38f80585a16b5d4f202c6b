@@ -13,15 +13,16 @@ data class SpaceStation(
     @PrimaryKey
     val name: String,
     @SerializedName("capacity")
-    val capacity: Int?,
+    val capacity: Int = 0,
     @SerializedName("coordinateX")
-    val coordinateX: Double?,
+    val coordinateX: Int = 0,
     @SerializedName("coordinateY")
-    val coordinateY: Double?,
+    val coordinateY: Int = 0,
     @SerializedName("need")
-    val need: Int?,
+    var need: Int = 0,
     @SerializedName("stock")
-    val stock: Int?,
+    var stock: Int = 0,
     var isFavorite: Boolean = false,
-    var isTraveler: Boolean = true
+    var isTraveler: Boolean = true,
+    var isCurrentStation: Boolean = false
 ) : Parcelable
