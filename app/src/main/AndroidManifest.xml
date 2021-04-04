@@ -22,11 +22,11 @@
             </intent-filter>
         </activity>
 
-        <activity
-            android:name=".ui.space_vehicle.create.CreateVehicleActivity" />
+        <activity android:name=".ui.space_vehicle.create.CreateVehicleActivity" />
 
         <activity
             android:name=".ui.main.MainActivity"
+            android:screenOrientation="portrait"
             android:windowSoftInputMode="adjustNothing" />
     </application>
 
