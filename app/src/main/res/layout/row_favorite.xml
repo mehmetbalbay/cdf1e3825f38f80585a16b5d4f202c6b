@@ -54,7 +54,7 @@
                 android:layout_below="@id/distanceToEarth"
                 android:layout_alignStart="@id/station_name"
                 android:layout_marginTop="16dp"
-                android:text="@{String.valueOf(spaceStation.need) + ` Stock` + `\n` + String.valueOf(spaceStation.stock) + ` Capacity` }"
+                android:text="@{String.valueOf(spaceStation.stock) + ` Stock` + `\n` + String.valueOf(spaceStation.capacity) + ` Capacity` }"
                 android:textColor="@color/black"
                 android:textSize="16sp"
                 tools:text="2000 / 1000" />
